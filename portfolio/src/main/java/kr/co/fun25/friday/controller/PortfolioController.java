@@ -12,6 +12,8 @@ public class PortfolioController {
 	@RequestMapping(value="/intro", method=RequestMethod.GET)
 	public ModelAndView getIntro(ModelAndView mav){
 		
+		System.out.println("tttt");
+		
 		mav.setViewName("portfolio/intro");
 		return mav;
 	}
