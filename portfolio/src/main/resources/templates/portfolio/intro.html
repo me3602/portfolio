@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>타이틀</title>
+    <link rel="shortcut icon" href="/image/favicon.png"/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"/>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    	@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+    	html,body{margin:0;padding:0;width:100%;height:100%;font-family: 'Nanum Gothic', serif;background-color: #000;overflow:hidden}
+    	a:link{color:#FFF}
+    	a:visited{color:#FFF}
+    	a:hover{color:#FFF}
+    	a:active{color:#FFF}
+    	ul{list-style: none}
+    	.progress{margin:0;position:absolute;z-index:2;width:100%;height:100%;text-align:center;padding-top:20%}
+    	.hide{display:none}    	
+    	.wrap{width:100%;height:100%;z-index:1;position:relative}
+    	.wrap:after{width:100%;height:100%;z-index:-1;position:absolute;top:0;left:0;content:"";background-image:url('/image/back.jpg');background-repeat:repeat;background-position:center;background-origin:content-box;background-size: 100%;opacity: 0.9!important; filter:alpha(opacity=90)}
+    	.header{background-color:rgba(0,0,0,0.2)}
+    	.header>h2{margin:0;padding:10px;color:#FFF;font-weight:bold}
+    	.header>h2>button{background-color: transparent!important;background-image:none!important;border-color:transparent}
+    	.header>h2>.bars:hover{color:#82EFC2}
+    	.side-nav{position:absolute;left:-30%;width:30%;height:100%;background-color:rgba(255,255,255,0.3);text-align:center}
+    	.side-nav>i{font-size:5em;padding:10px 0 10px 0}
+    	.side-nav>ul>li{border-top:1px solid #848484; padding:10px 0 10px 0}
+    	.side-nav>ul>li>a{color:#848484;font-size:1.3em}
+    	.side-nav>ul>li>a:link{color:#848484;font-size:1.3em}
+    	.side-nav>ul>li>a:visited{color:#848484;font-size:1.3em}
+    	.side-nav>ul>li>a:hover{color:#FFF;background-color:rgba(4,180,134,0.7);font-weight:bold}
+    	.side-nav>ul>li>a:active{color:#FFF;background-color:rgba(4,180,134,0.7);font-weight:bold}
+    	.section{width:100%;height:100%;color:#FFF;overflow:scroll}
+    	.contents{margin-top:60px;}
+    	.article{background-color:rgba(88,88,88,0.4);padding:20px;margin-bottom:20px}
+    	.article>h3{padding-bottom:10px;border-bottom:1px solid #FFF}
+    	.article>img{margin:10px 0 10px 0}
+    </style>
+  </head>
+  <body>
+  	<div class="progress">
+  		<div id="progressBar"></div>
+  		<h3>Now Loading ...</h3>
+  	</div>  	
+  	<div class="side-nav hide">
+  		<i class="fa fa-code" aria-hidden="true"></i>
+  		<ul class="nav nav-pills nav-stacked">
+		  <li><a href="#">메뉴1</a></li>
+		  <li><a href="#">메뉴1</a></li>
+		  <li><a href="#">메뉴1</a></li>
+		  <li><a href="#">메뉴1</a></li>
+		</ul>
+  	</div>
+  	<div class="wrap">
+  		<div class="navbar-fixed-top header">  			
+	    	<h2 class="text-center">
+		    	<button id="sideNavBtn" class="fa fa-bars pull-left bars"></button>
+		    	<i class="fa fa-code" aria-hidden="true"></i>&nbsp;타이틀
+	    	</h2>
+	    </div>
+	    <div class="section">
+	    	<div class="container contents">
+	    		<h1>테스트</h1>	   
+	    		<div class="grid">
+	    			<div class="grid-item article" th:each="i : ${#numbers.sequence( 1, 100)}">
+		    			<h3><strong>제목</strong></h3>			
+		    			<img class="img-responsive" src="/image/favicon.png"/>
+		    			<h4><strong>제목</strong></h4>
+		    			<ul>
+		    				<li>ㅁㅇㄴㅁㄴㅇㅁㄴㅇㅁㄴㅇ</li>
+		    				<li>ㅁㅇㄴㅁㄴㅇㅁㄴㅇㅁㄴㅇ</li>
+		    				<li>ㅁㅇㄴㅁㄴㅇㅁㄴㅇㅁㄴㅇ</li>
+		    				<li>ㅁㅇㄴㅁㄴㅇㅁㄴㅇㅁㄴㅇ</li>
+		    				<li>ㅁㅇㄴㅁㄴㅇㅁㄴㅇㅁㄴㅇ</li>
+		    				<li>ㅁㅇㄴㅁㄴㅇㅁㄴㅇㅁㄴㅇ</li>
+		    			</ul>	
+		    			<h4><strong>링크</strong></h4>		    			
+		    		</div>
+	    		</div>	    		
+	    	</div>	    	
+	    </div>
+  	</div>
+    
+    
+
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4.1/dist/masonry.pkgd.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="/js/jquery-circle-progress-1.2.0/dist/circle-progress.min.js"></script>
+    <script>
+	    $('#progressBar').circleProgress({
+		  value: 1,
+		  size: 100,
+		  fill: {
+		    gradient: ["#000", "#82EFC2"]
+		  },
+		  animation : {duration: 900}
+		});
+	    
+    	$(window).load(function(){
+    		 $('.progress').fadeOut('slow',function(){
+    			 $(this).remove();
+    		 });
+    	});  
+    	
+     	$('.grid').masonry({
+   		  // options...
+   		  itemSelector: '.grid-item',
+   		  columnWidth: 300
+   		}); 
+    	
+    	$(document).ready(function(){
+    		$("#sideNavBtn").on('click',function(){
+    			var sideNav = $(".side-nav");
+    			var duration = 400;
+    			
+    			if($(sideNav).hasClass('hide')){    				
+    				$(sideNav).removeClass('hide');
+    				$('.navbar-fixed-top').css({position:'relative'});
+    				
+    				$(sideNav).animate({left:0},duration);    				
+    				$('.wrap').animate({left:'30%'},duration);
+    			}else{
+    				$(sideNav).animate({left:'-30%'},duration,function(){
+    					$(sideNav).addClass('hide');
+    					$('.navbar-fixed-top').css({position:'fixed'});
+    				});    				
+    				$('.wrap').animate({left:0},duration);    				
+    			}    			
+    		});
+    	});
+    </script>
+  </body>
+</html>
