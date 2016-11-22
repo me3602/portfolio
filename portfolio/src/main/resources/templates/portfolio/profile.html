@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>  
+  <title>Profile</title>   
+  <style>
+  	.profile-info{margin-top: 6em}
+  	.black{background-color:rgba(88,88,88,0.4)}
+  	.trans{background-color: transparent; margin-top:2em}
+  </style>
+</head>
+<body>
+<div layout:fragment="contents">
+<div class="page-header">
+  <h1>Profile<small> - Web Developer</small></h1>
+</div>
+
+<div class="basic-info row">
+	<div class="col-md-3">
+		<img class="img-responsive img-thumbnail center-block" src="/image/cheon.jpg"/>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-info trans">
+		  <!-- Default panel contents -->
+		  <div class="panel-heading">Infomation</div>		
+		  <!-- Table -->
+		  <table class="table black">
+		  	<thead>
+		  		<tr>
+		  			<th colspan="2">#</th>
+		  		</tr>
+		  	</thead>
+			<tbody>
+				<tr>
+					<td>Name</td>
+					<td>천영진(Young Jin Cheon)</td>
+				</tr>
+				<tr>
+					<td>Birth</td>
+					<td>1989.11.27</td>
+				</tr>
+				<tr>
+					<td>Degree</td>
+					<td>Bachelor of Computer Engineering in Hannam Univ.</td>
+				</tr>
+				<tr>
+					<td>Certificate</td>
+					<td>Engineer Information Processing</td>
+				</tr>
+			</tbody>
+		</table>
+		</div>		
+	</div>
+</div>	
+
+<div class="profile-info row">
+	<div class="col-md-4">
+		<div id="skill1"></div>
+	</div>
+	<div class="col-md-4"></div>
+	<div class="col-md-4"></div>
+</div>
+</div>
+<script layout:fragment="script">
+$('#skill1').circleProgress({
+	  value: 1,
+	  size: 100,
+	  fill: {
+	    gradient: ["#000", "#82EFC2"]
+	  },
+	  animation : {duration: 900}
+	});
+</script>
+</body>
+</html>
