@@ -11,10 +11,15 @@ public class PortfolioController {
 
 	@RequestMapping(value="/intro", method=RequestMethod.GET)
 	public ModelAndView getIntro(ModelAndView mav){
-		
-		System.out.println("tttt");
-		
+				
 		mav.setViewName("portfolio/intro");
+		return mav;
+	}
+	
+	@RequestMapping(value="/profile", method=RequestMethod.GET)
+	public ModelAndView getProfile(ModelAndView mav){
+		
+		mav.setViewName("portfolio/profile");
 		return mav;
 	}
 }
