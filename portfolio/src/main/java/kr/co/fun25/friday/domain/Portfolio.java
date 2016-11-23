@@ -31,5 +31,7 @@ public @Data class Portfolio {
 	private String summary;
 	@Column(name="THUMBNAIL")
 	private String thumbnail;
+	@Column(name="HIT")
+	private long hit;
 	
 }
