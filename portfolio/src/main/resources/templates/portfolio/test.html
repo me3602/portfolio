@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>  
+  <title>Test</title>   
+  <style>
+  	.sec{height:1000px}
+  	.r{background-color: red}
+  	.y{background-color: yellow}
+  	.g{background-color: gray}
+  	.b{background-color: blue}
+  </style>
+</head>
+<body>
+<div layout:fragment="contents">
+	<div class="sec r">
+	
+	</div>
+	<div class="sec y">
+	
+	</div>
+	<div class="sec g">
+	
+	</div>
+	<div class="sec b">
+	
+	</div>
+</div>
+<script layout:fragment="script">
+//<![CDATA[
+$(function(target){
+	var viewHeight = $(target).height(); //전체길이
+	var elements = $('.sec'); //요소배열
+	var arrHeight = new Array(); //요소별 길이 배열 
+	$(elements).css({opacity:0});
+	$(elements[0]).css({opacity:1});
+		
+	$(elements).each(function(){
+		arrHeight.push(arrHeight.length * $(this).height()-(viewHeight/1.6));
+	});
+	console.log(viewHeight);
+	console.log(arrHeight);
+	$(target).scroll(function(){
+		var top = $(this).scrollTop();
+		
+		$.each(arrHeight,function(index,value){				
+			var opacity = $(elements[index]).css("opacity");
+			console.log(opacity);
+		 	if(top < value && opacity == 1){
+				$(elements[index]).animate({opacity:0},'slow');
+			}else if(top >= value && opacity == 0){
+				$(elements[index]).animate({opacity:1},'slow');
+			}
+		
+		});
+	});
+}($('.section')));	
+
+$('#skill1').circleProgress({
+	  value: 1,
+	  size: 100,
+	  fill: {
+	    gradient: ["#000", "#82EFC2"]
+	  },
+	  animation : {duration: 900}
+	});
+//]]>
+</script>
+</body>
+</html>
