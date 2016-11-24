@@ -16,10 +16,12 @@ public class PortfolioController {
 	@Resource(name = "PortfolioService")
 	private PortfolioService portfolioService;
 	
-	@RequestMapping(value="/intro", method=RequestMethod.GET)
+	@RequestMapping(value="/list", method=RequestMethod.GET)
 	public ModelAndView getIntro(ModelAndView mav){
-				
-		mav.setViewName("portfolio/intro");
+		
+		mav.addObject("LIST", portfolioService.getAllList());
+		
+		mav.setViewName("portfolio/list");
 		return mav;
 	}
 	
@@ -32,7 +34,7 @@ public class PortfolioController {
 	
 	@RequestMapping(value="/test", method=RequestMethod.GET)
 	public ModelAndView getTest(ModelAndView mav){
-		portfolioService.test();
+		
 		
 		mav.setViewName("portfolio/test");
 		return mav;

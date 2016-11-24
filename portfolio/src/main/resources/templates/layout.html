@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title layout:title-pattern="$CONTENT_TITLE :: $DECORATOR_TITLE">Portfolio</title>
-    <link rel="shortcut icon" href="/image/favicon.png"/>
+    <link rel="shortcut icon" href="/image/portfolio/favicon.png"/>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"/>
@@ -26,7 +26,7 @@
     	.progress{margin:0;position:absolute;z-index:2;width:100%;height:100%;text-align:center;padding-top:20%}
     	.hide{display:none}    	
     	.wrap{width:100%;height:100%;z-index:1;position:relative}
-    	.wrap:after{width:100%;height:100%;z-index:-1;position:absolute;top:0;left:0;content:"";background-image:url('/image/back.jpg');background-repeat:repeat;background-position:center;background-origin:content-box;background-size: 100%;opacity: 0.9!important; filter:alpha(opacity=90)}
+    	.wrap:after{width:100%;height:100%;z-index:-1;position:absolute;top:0;left:0;content:"";background-image:url('/image/portfolio/back.jpg');background-repeat:repeat;background-position:center;background-origin:content-box;background-size: 100%;opacity: 0.9!important; filter:alpha(opacity=90)}
     	.header{background-color:rgba(0,0,0,0.2)}
     	.header>h2{margin:0;padding:10px;color:#FFF;font-weight:bold}
     	.header>h2>button{background-color: transparent!important;background-image:none!important;border-color:transparent}
@@ -44,6 +44,8 @@
     	.article{max-width:350px;background-color:rgba(88,88,88,0.4);padding:20px;margin-bottom:20px}
     	.article>h3{padding-bottom:10px;border-bottom:1px solid #FFF}
     	.article>img{margin:10px 0 10px 0}
+    	.carousel-indicators>li{border-color: #000}
+    	.carousel-indicators>li.active{background-color: rgba(0,0,0,0.6)}
     </style>
   </head>
   <body>
@@ -54,10 +56,9 @@
   	<div class="side-nav hide">
   		<i class="fa fa-code" aria-hidden="true"></i>
   		<ul class="nav nav-pills nav-stacked">
-		  <li><a href="#">Profile</a></li>
-		  <li><a href="#">Portfolio</a></li>
-		  <li><a href="#">메뉴1</a></li>
-		  <li><a href="#">메뉴1</a></li>
+		  <li><a href="/portfolio/profile">Profile</a></li>
+		  <li><a href="/portfolio/list">Portfolio</a></li>
+		  <li><a href="/portfolio/test">Test</a></li>
 		</ul>
   	</div>
   	<div class="wrap">
@@ -89,21 +90,21 @@
 							  <!-- Wrapper for slides -->
 					  			<div class="carousel-inner" role="listbox">
 								    <div class="item text-center active">
-								      <img class="center-block" src="/image/project/1/1.png" alt="ex1"/>
+								      <img class="center-block" src="/image/portfolio/favicon.png" alt="ex1"/>
 								      <div class="carousel-caption">
 								      	<h3>이미지1</h3>
 								      	<p>설명1</p>
 								      </div>
 								    </div>
 								     <div class="item">
-								      <img class="center-block" src="/image/favicon.png" alt="ex1"/>
+								      <img class="center-block" src="/image/portfolio/favicon.png" alt="ex1"/>
 								      <div class="carousel-caption">
 								      	<h3>이미지1</h3>
 								      	<p>설명1</p>
 								      </div>
 								    </div>
 								     <div class="item">
-								      <img class="center-block" src="/image/favicon.png" alt="ex1"/>
+								      <img class="center-block" src="/image/portfolio/favicon.png" alt="ex1"/>
 								      <div class="carousel-caption">
 								      	<h3>이미지1</h3>
 								      	<p>설명1</p>
@@ -124,7 +125,7 @@
 	    		<div class="grid">
 	    			<div class="grid-item article" th:each="i : ${#numbers.sequence( 1, 100)}">
 		    			<h3><strong>제목</strong></h3>			    					
-		    			<img class="img-responsive" src="/image/project/1/1.png"/>
+		    			<img class="img-responsive" src="/image/portfolio/favicon.png"/>
 		    			<!-- Button trigger modal -->
 						<button type="button" class="btn btn-success btn-md center-block" data-toggle="modal" data-target="#myModal">
 						 샘플이미지
