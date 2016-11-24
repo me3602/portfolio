@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.fun25.friday.service.PortfolioService;
 
 @RestController
-@RequestMapping(value="/portfolio")
+@RequestMapping(value="/apps/portfolio")
 public class PortfolioController {
 
 	@Resource(name = "PortfolioService")
