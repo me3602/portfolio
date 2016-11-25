@@ -5,7 +5,7 @@
 <head>  
   <title>Profile</title>   
   <style>
-  	.profile-info{margin: 6em 0 6em 0 }
+  	.profile-info{margin: 6em 0 6em 0; height}
   	.black{background-color:rgba(88,88,88,0.4)}
   	.trans{background-color: transparent; margin-top:2em}
   	.trans-only{background-color: transparent;}
@@ -15,6 +15,8 @@
   	.hobby-box{margin:20px 0 20px 0}
   	.hobby-img{width:20%;display:inline-block;vertical-align:middle}
   	.hobby-text{display:inline-block;vertical-align:middle;margin-left:10%;font-size:2em}
+  	.page-nav{position:fixed;bottom:0;right:0}
+  	.page-nav>button{}
   </style>
 </head>
 <body>
@@ -23,7 +25,7 @@
   <h1>Profile<small> - Web Developer</small></h1>
 </div>
 
-<div class="profile-info row" style="opacity:0">
+<div class="profile-info row">
 	<h2><strong>- Infomation</strong></h2>
 	<div class="col-md-3">
 		<img class="img-responsive img-thumbnail center-block" src="/image/portfolio/cheon.jpg"/>
@@ -138,6 +140,9 @@
 	</div>
 </div>
 
+<!-- <div class="btn-group-vertical page-nav" role="group">
+	
+</div> -->
 </div>
 <script layout:fragment="script">
 //<![CDATA[
@@ -184,31 +189,18 @@
 	});	
 })($);
 
-$(function(target){
-	var viewHeight = $(target).height(); //전체길이
-	var elements = $('.profile-info'); //요소배열
-	var arrHeight = new Array(); //요소별 길이 배열 
-	$(elements).css({opacity:0});
-	$(elements[0]).css({opacity:1});
-		
-	$(elements).each(function(){
-		arrHeight.push(arrHeight.length * $(this).height()-(viewHeight/1.1));
+/* (function($){
+	var elements = $('.profile-info');
+	var pageNav = $('.page-nav');
+	$.each(elements,function(index,element){
+		$(element).attr('id','view'+index);
+		$('<button>',{
+			'type' : 'button',
+			'class' : 'btn btn-default',
+			'text' : index
+		}).appendTo(pageNav);
 	});
-	$(target).scroll(function(){
-		var top = $(this).scrollTop();
-		
-		$.each(arrHeight,function(index,value){				
-			var opacity = $(elements[index]).css("opacity");
-			console.log(opacity);
-		 	if(top < value && opacity == 1){
-				$(elements[index]).animate({opacity:0},'slow');
-			}else if(top >= value && opacity == 0){
-				$(elements[index]).animate({opacity:1},'slow');
-			}
-		
-		});
-	});
-}($('.section')));	
+})($);	 */
 //]]>
 </script>
 </body>
