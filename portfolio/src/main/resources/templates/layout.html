@@ -46,6 +46,8 @@
     	.article>img{margin:10px 0 10px 0}
     	.carousel-indicators>li{border-color: #000}
     	.carousel-indicators>li.active{background-color: rgba(0,0,0,0.6)}
+    	.category{background-color: transparent; margin:10px;font-size:1.5em;border:1px solid #FFF;text-align:center}
+    	.top-pannel{background-color: transparent;text-align: center}
     </style>
   </head>
   <body>
@@ -66,85 +68,12 @@
 	    	<h2 class="text-center">
 		    	<button id="sideNavBtn" class="fa fa-bars pull-left bars"></button>
 		    	Web Developer
+		    	<button ></button>
 		    	<!-- <i class="fa fa-code" aria-hidden="true"></i>&nbsp;타이틀 -->
 	    	</h2>
 	    </div>	    
 	    <div class="section">
-	    	<div class="container contents" layout:fragment="contents">
-				<!-- Modal -->
-				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				  <div class="modal-dialog">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        <h4 class="modal-title" id="myModalLabel">샘플이미지</h4>
-				      </div>
-				      <div class="modal-body" style="background-color: #000">
-					      	<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-							  	<!-- Indicators -->
-								<ol class="carousel-indicators">
-								 	<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-									<!-- <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-							  		<li data-target="#carousel-example-generic" data-slide-to="2"></li> -->
-								</ol>
-							
-							  <!-- Wrapper for slides -->
-					  			<div class="carousel-inner" role="listbox">
-								    <div class="item text-center active">
-								      <img class="center-block" src="/image/portfolio/favicon.png" alt="ex1"/>
-								      <div class="carousel-caption">
-								      	<h3>이미지1</h3>
-								      	<p>설명1</p>
-								      </div>
-								    </div>
-								     <div class="item">
-								      <img class="center-block" src="/image/portfolio/favicon.png" alt="ex1"/>
-								      <div class="carousel-caption">
-								      	<h3>이미지1</h3>
-								      	<p>설명1</p>
-								      </div>
-								    </div>
-								     <div class="item">
-								      <img class="center-block" src="/image/portfolio/favicon.png" alt="ex1"/>
-								      <div class="carousel-caption">
-								      	<h3>이미지1</h3>
-								      	<p>설명1</p>
-								      </div>
-								    </div>
-					  			</div>
-							</div>			      	
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-	    	
-	    	
-	    		<h1>테스트</h1>	   
-	    		<div class="grid">
-	    			<div class="grid-item article" th:each="i : ${#numbers.sequence( 1, 100)}">
-		    			<h3><strong>제목</strong></h3>			    					
-		    			<img class="img-responsive" src="/image/portfolio/favicon.png"/>
-		    			<!-- Button trigger modal -->
-						<button type="button" class="btn btn-success btn-md center-block" data-toggle="modal" data-target="#myModal">
-						 샘플이미지
-						</button> 	
-		    			<h4><strong>제목</strong></h4>
-		    			<ul>
-		    				<li>ㅁㅇㄴㅁㄴㅇㅁㄴㅇㅁㄴㅇ</li>
-		    				<li>ㅁㅇㄴㅁㄴㅇㅁㄴㅇㅁㄴㅇ</li>
-		    				<li>ㅁㅇㄴㅁㄴㅇㅁㄴㅇㅁㄴㅇ</li>
-		    				<li>ㅁㅇㄴㅁㄴㅇㅁㄴㅇㅁㄴㅇ</li>
-		    				<li>ㅁㅇㄴㅁㄴㅇㅁㄴㅇㅁㄴㅇ</li>
-		    				<li>ㅁㅇㄴㅁㄴㅇㅁㄴㅇㅁㄴㅇ</li>
-		    			</ul>	
-		    			<h4><strong>링크</strong></h4>	
-		    			<a href="#">실제링크</a><br/>	
-		    		</div>
-	    		</div>	    		
-	    	</div>	    	
+	    	<div class="container contents" layout:fragment="contents"></div>	    	
 	    </div>
   	</div>  	
 
