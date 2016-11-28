@@ -1,5 +1,7 @@
 package kr.co.fun25.friday;
 
+import java.util.Properties;
+
 import org.apache.catalina.connector.Connector;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -8,6 +10,9 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
 
 @SpringBootApplication
 @Configuration
@@ -50,4 +55,23 @@ public class PortfolioApplication {
     	registrationBean.addUrlMappings("/console/*");
     	return registrationBean;
     }*/
+	
+	
+	@Bean
+	public JavaMailSender getMailSender(){
+		JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+		javaMailSender.setHost("smtp.gmail.com");
+		javaMailSender.setPort(587);
+		javaMailSender.setDefaultEncoding("utf-8");
+		javaMailSender.setUsername("stark9838@gmail.com");
+		javaMailSender.setPassword("googledudwls33!");
+		
+		Properties p = new Properties();
+		p.put("mail.smtp.starttls.enable", true);
+		p.put("mail.smtp.auth", true);
+		
+		javaMailSender.setJavaMailProperties(p);
+		
+		return javaMailSender;		
+	}
 }

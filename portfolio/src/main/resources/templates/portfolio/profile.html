@@ -16,6 +16,8 @@
   	.hobby-img{width:20%;display:inline-block;vertical-align:middle}
   	.hobby-text{display:inline-block;vertical-align:middle;margin-left:10%;font-size:1.5em}
   	.page-nav{position:fixed;bottom:0;right:0}
+  	.cover{position: fixed; top: 0;width: 100%;height: 100%;background-color:rgba(255,255,255,0.7);z-index:99;text-align: center}
+  	.cover-wrap{padding:20%}
   </style>
 </head>
 <body>
@@ -156,9 +158,13 @@
 	<h2><strong>- Contact</strong></h2>
 	<p class="lead">궁금한 점이나 문의하실 사항이 있다면 부담없이 메일 주세요.</p>
 	<form name="mailForm">
+	 <div class="form-group">
+	    <label for="name">이름</label>
+	    <input name="name" type="text" class="form-control" id="name" placeholder="보내시는 분의 이름을 입력하세요" />
+	  </div>
 	  <div class="form-group">
-	    <label for="email">보내는 이의 이메일 주소</label>
-	    <input name="email" type="email" class="form-control" id="email" placeholder="보내시는 분의 이메일을 입력하세요" />
+	    <label for="addr">회신받을 이메일 주소</label>
+	    <input name="addr" type="email" class="form-control" id="addr" placeholder="보내시는 분의 이메일을 입력하세요" />
 	  </div>
 	  <div class="form-group">
 	    <label for="title">제목</label>
@@ -217,34 +223,74 @@
 		);
 		
 		
-		$('form[name=mailForm]').submit(function(){
+		$('form[name=mailForm]').submit(function(){			
 			var form = $(this)[0];
 			var formGroup = $(this).find('div');
 			
-			if(form.email.value == '' || form.email.value == null){
-				$(formGroup[0]).addClass("has-error");	
-				$(form[0]).focus();
-				return false;
-			}
+			var check = true;
+			$.each(form,function(index,value){
+				if(!$(this).is("button") && $.trim($(this).val()) == ''){
+					$(formGroup[index]).addClass("has-error");	
+					$(this).focus();
+					check = false;
+					return false;
+				}				
+			});	
 			
-			if(form.title.value == '' || form.title.value== null){
-				$(formGroup[1]).addClass("has-error");		
-				$(form[1]).focus();
-				return false;
-			}
+			if(!check) return false;
 			
-			if(form.contents.value == '' || form.contents.value == null){
-				$(formGroup[2]).addClass("has-error");		
-				$(form[2]).focus();
-				return false;
-			}
+			setCover();			
 			
 			$.post( "/apps/portfolio/sendMail",$(form).serialize(),function( data ) {
-			  console.log(data);
+				
+				var result = data.result;
+				if(result == 1001){				
+					makeAlert(form,"success","<strong>발송성공</strong> 성공적으로 발송되었습니다.");
+				}else{
+					makeAlert(form,"danger","<strong>발송실패</strong> 발송에 실패했습니다. 다시 시도해주세요.");
+				}
+				
+				$('.cover').remove();
+			  	
 			});
+			
 			return false;
 		});
 		
+		function setCover(){
+			
+			var img = $('<img>',{
+				'class' : 'cover-img',
+				'src' : '/image/portfolio/squares.gif'
+			});
+			
+			var word = $('<h2>',{
+				'html' : '<strong>Please Wait...<strong>'
+			})
+			
+			var cover = $('<div>',{
+				'class' : 'cover'				
+			}).append($('<div>',{'class':'cover-wrap'}).append(img).append(word)).appendTo('body');
+		};
+		
+		
+		function makeAlert(target,className,text){
+			var alert = $('<div>',{
+				'class' : 'alert alert-'+className+' alert-dismissible',
+				'role' : 'alert',
+				'html' : text
+			}).append($('<button>',{
+				'type' : 'button',
+				'class' : 'close',
+				'data-dismiss' : 'alert',
+				'aria-label' : 'Close'
+			}).append($('<span>',{
+				'aria-hidden' : 'true',
+				'html' : '&times;'
+			}))).prependTo($(target));
+			
+			return alert;
+		};
 	});	
 })($);
 
