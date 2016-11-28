@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+  <head>  
+    <title>List</title>   
+  </head>
+  <body>
+<div layout:fragment="contents"> 
+<div class="panel panel-default top-pannel">
+  <div class="panel-body">
+    <p class="lead"> 안녕하세요. 포트폴리오 사이트 입니다.</p>
+  </div>
+</div>
+  
+<div class="grid">
+	<div class="grid-item article">
+		<h3><strong>Profile</strong></h3>			    					
+		<p class="category"><strong>프로필</strong></p>			
+		<h4><strong>링크</strong></h4>		
+		<a class="btn btn-success btn-md btn-block" href="/apps/portfolio/profile" target="_blank">이동</a>		
+	</div>
+	<div class="grid-item article">
+		<h3><strong>Porfolio</strong></h3>			    					
+		<p class="category"><strong>진행했던 상용 프로젝트 소개</strong></p>			
+		<h4><strong>링크</strong></h4>		
+		<a class="btn btn-success btn-md btn-block" href="/apps/portfolio/list" target="_blank">이동</a>		
+	</div>
+	<div class="grid-item article">
+		<h3><strong>Lab</strong></h3>			    					
+		<p class="category"><strong>이것저것 테스트</strong></p>			
+		<h4><strong>링크</strong></h4>		
+		<a class="btn btn-success btn-md btn-block" href="/apps/portfolio/lab" target="_blank">이동</a>		
+	</div>
+</div>	    		
+</div>
+
+<script layout:fragment="script">
+//<![CDATA[
+    
+//]]>
+</script>
+</body>
+</html>

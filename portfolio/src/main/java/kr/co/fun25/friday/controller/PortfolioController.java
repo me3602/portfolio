@@ -2,6 +2,7 @@ package kr.co.fun25.friday.controller;
 
 import javax.annotation.Resource;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +24,15 @@ public class PortfolioController {
 	@Resource(name = "EmailSender")
 	private EmailSender emailSender;
 	
-	@RequestMapping(value="/list", method=RequestMethod.GET)
+	@RequestMapping(value="/intro", method=RequestMethod.GET)
 	public ModelAndView getIntro(ModelAndView mav){
+		
+		mav.setViewName("portfolio/intro");
+		return mav;
+	}
+	
+	@RequestMapping(value="/list", method=RequestMethod.GET)
+	public ModelAndView getList(ModelAndView mav){
 		
 		mav.addObject("LIST", portfolioService.getAllList());
 		
@@ -55,11 +63,11 @@ public class PortfolioController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/test", method=RequestMethod.GET)
-	public ModelAndView getTest(ModelAndView mav){
+	@RequestMapping(value="/test/{id}", method=RequestMethod.GET)
+	public ModelAndView getTest(ModelAndView mav, @PathVariable String id){
 		
 		
-		mav.setViewName("portfolio/test");
+		mav.setViewName("portfolio/test/"+id);
 		return mav;
 	}
 	
