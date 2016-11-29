@@ -13,20 +13,11 @@ import kr.co.fun25.friday.util.EmailSender;
 @SpringBootTest
 public class PortfolioApplicationTests {
 
-	@Autowired
-	EmailSender sender;
+	
 	
 	@Test
 	public void contextLoads() {
-		EmailVO emailVO = new EmailVO();
-		emailVO.setAddr("me3602@naver.com");
-		emailVO.setTitle("제목");
-		emailVO.setContents("내용");
 		
-		/*EmailSender e = new EmailSender();
-		e.send(emailVO);*/
-		
-		sender.send(emailVO);
 	}
 	
 

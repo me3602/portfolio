@@ -235,7 +235,13 @@
 					makeAlert(form,"danger","<strong>발송실패</strong> 발송에 실패했습니다. 다시 시도해주세요.");
 				}
 				
+				$.each(form,function(index,value){
+					if(!$(this).is("button") ) $(this).val('');
+				});	
+				
 				$('.cover').remove();
+				
+				
 			  	
 			});
 			
@@ -279,18 +285,6 @@
 	});	
 })($);
 
-/* (function($){
-	var elements = $('.profile-info');
-	var pageNav = $('.page-nav');
-	$.each(elements,function(index,element){
-		$(element).attr('id','view'+index);
-		$('<button>',{
-			'type' : 'button',
-			'class' : 'btn btn-default',
-			'text' : index
-		}).appendTo(pageNav);
-	});
-})($);	 */
 //]]>
 </script>
 </body>
