@@ -59,7 +59,7 @@ public class PortfolioController {
 	public ModelAndView getLab(ModelAndView mav){
 		
 		
-		mav.setViewName("portfolio/Lab");
+		mav.setViewName("portfolio/lab");
 		return mav;
 	}
 	
