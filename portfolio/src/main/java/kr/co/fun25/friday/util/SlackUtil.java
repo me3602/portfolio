@@ -13,8 +13,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.json.JSONObject;
-import org.skyscreamer.jsonassert.JSONParser;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import kr.co.fun25.friday.VO.ResultVO;
 
 /**
  * 슬랙 유틸 클래스 
@@ -61,15 +64,32 @@ public class SlackUtil {
 		this.channel = channel;		
 	};
 	
-	public boolean sendInvite(String email){
+	public ResultVO sendInvite(String email){
 		Map<String,Object> data = new HashMap<String,Object>();
 		data.put("email", email);
 		data.put("channels", Channel.GENERAL.getID());
 		data.put("token", this.token);
 		
 		JSONObject result = sendDatatoAPI("https://fridayit.slack.com/api/users.admin.invite",data);
-				
-		return true;
+		
+		
+		ResultVO resultVO = new ResultVO();
+		boolean stat = Boolean.parseBoolean(result.get("ok").toString());
+		
+		if(stat){
+			resultVO.setResult(ConstResult.SUCCESS);
+		}else{
+			resultVO.setResult(ConstResult.FAIL);
+			
+			if(result.containsKey("error")){
+				resultVO.setReason(result.get("error").toString());
+			}else{
+				resultVO.setReason(result.get("reason").toString());
+			}
+			
+		}
+		
+		return resultVO;
 	}
 	
 	
@@ -196,12 +216,16 @@ public class SlackUtil {
 				returnStr += line;
 			}			
 			
-			result = (JSONObject)JSONParser.parseJSON(returnStr);
+			result = (JSONObject)new JSONParser().parse(returnStr);			
+			
 			
 		} catch (MalformedURLException e) {
 			result.put("ok", false);
 			result.put("reason", e.getMessage());
 		} catch (IOException e) {
+			result.put("ok", false);
+			result.put("reason", e.getMessage());
+		} catch (ParseException e) {
 			result.put("ok", false);
 			result.put("reason", e.getMessage());
 		} finally{

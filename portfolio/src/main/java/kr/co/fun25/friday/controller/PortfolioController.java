@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -49,12 +50,6 @@ public class PortfolioController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/sendMail", method=RequestMethod.POST)
-	public ResultVO sendMail(EmailVO emailVO){		
-		
-		return CommonUtil.makeResultVO(emailSender.send(emailVO));
-	}
-	
 	@RequestMapping(value="/lab", method=RequestMethod.GET)
 	public ModelAndView getLab(ModelAndView mav){
 		
@@ -64,8 +59,7 @@ public class PortfolioController {
 	}
 	
 	@RequestMapping(value="/chat", method=RequestMethod.GET)
-	public ModelAndView getSlack(ModelAndView mav){
-		
+	public ModelAndView getSlack(ModelAndView mav){		
 		
 		mav.setViewName("portfolio/chat");
 		return mav;
@@ -77,6 +71,21 @@ public class PortfolioController {
 		
 		mav.setViewName("portfolio/test/"+id);
 		return mav;
+	}
+	
+	
+	/* ajax 처리 컨트롤러 */
+	
+	@RequestMapping(value="/sendMail", method=RequestMethod.POST)
+	public ResultVO sendMail(EmailVO emailVO){		
+		
+		return CommonUtil.makeResultVO(emailSender.send(emailVO));
+	}
+	
+	@RequestMapping(value="/invite", method=RequestMethod.POST)
+	public ResultVO sendInvite(@RequestParam(value="email") String email){
+		
+		return portfolioService.sendSlackInvite(email);		
 	}
 	
 	

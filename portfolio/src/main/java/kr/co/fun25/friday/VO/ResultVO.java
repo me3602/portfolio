@@ -5,4 +5,5 @@ import lombok.Data;
 public @Data class ResultVO {
 
 	private int result;
+	private String reason;
 }
