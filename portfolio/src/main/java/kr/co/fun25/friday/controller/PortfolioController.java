@@ -63,6 +63,14 @@ public class PortfolioController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/chat", method=RequestMethod.GET)
+	public ModelAndView getSlack(ModelAndView mav){
+		
+		
+		mav.setViewName("portfolio/chat");
+		return mav;
+	}
+	
 	@RequestMapping(value="/test/{id}", method=RequestMethod.GET)
 	public ModelAndView getTest(ModelAndView mav, @PathVariable String id){
 		

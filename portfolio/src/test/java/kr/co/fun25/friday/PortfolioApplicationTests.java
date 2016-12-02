@@ -18,8 +18,11 @@ public class PortfolioApplicationTests {
 	
 	@Test
 	public void contextLoads() {
-		SlackUtil slack = new SlackUtil(SlackUtil.Channel.ALARM.getChannel());
-		slack.sendBotMessage("봇 테스트");
+		//SlackUtil slack = new SlackUtil(SlackUtil.Channel.ALARM.getChannel());
+		//slack.sendBotMessage("봇 테스트");
+		//slack.sendInvite("stark9838@gmail.com");
+		
+		
 	}
 	
 

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+  <head>  
+    <title>Chat</title>   
+     <style>
+	  	.chat-box{background-color:rgba(1,223,165,0.3);padding: 1.5em;border-radius:0.5em}
+	  	.invite-box{background-color:rgba(0,0,0,0.4);padding:0.5em;border-radius:1em}
+	  	.invite-mail{background-color: transparent;border:0;box-shadow:none}
+	  	.invite-mail:focus{box-shadow:none;border:0;color:#FFF}
+	  	.invite-btn{background-color:rgba(255,255,255,0.4);color:#FFF}
+	  	.invite-btn:hover{background-color:rgba(19,100,78,1);font-weight:bold;color:#FFF}
+	  	.invite-btn:active{}
+	  	
+	  	@media screen and (max-width: 767px) {
+		    .invite-mail{width:70%}
+		    .invite-btn{}
+		}
+	  </style>
+  </head> 
+  <body>
+<div layout:fragment="contents"> 	
+<div class="page-header">
+  <h1>Chat Page<small> - Slack</small></h1>
+</div>
+ 
+<div class="panel panel-default top-pannel">
+  <div class="panel-body">
+    <p class="lead">슬랙을 이용한 채팅 페이지 입니다.</p>
+  </div>
+</div>
+  
+<div class="container">
+	<div class="container-fluid chat-box">
+		<div class="alert alert-info" role="alert">
+			<strong>이미 팀에 가입하셨다면 하단의 입장하기를 눌러주세요.</strong>
+		</div>
+		
+		<form class="form-inline cen" name="invite-form">
+		    <div class="form-group invite-box">
+		    	<label for="email" class="sr-only">Password</label>
+		    	<input type="email" name="email" class="form-control input-lg invite-mail" id="email" placeholder="Email"/>
+		    	<button type="submit" class="btn invite-btn">가입</button>		    	
+		    </div>	  			
+		</form>
+	</div>
+</div>
+    		
+</div>
+
+<script layout:fragment="script">
+//<![CDATA[
+  $(document).ready(function(){
+	  $("form[name=invite-form]").submit(function(){});
+	 
+  });         
+           
+//]]>
+</script>
+</body>
+</html>

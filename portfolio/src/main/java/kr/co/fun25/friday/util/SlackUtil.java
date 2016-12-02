@@ -4,11 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.json.JSONObject;
+import org.skyscreamer.jsonassert.JSONParser;
 
 /**
  * 슬랙 유틸 클래스 
@@ -22,23 +28,29 @@ public class SlackUtil {
 	private String url = "https://hooks.slack.com/services/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";
 	private String botName = "Friday Bot";
 	private String botImg = "http://friday.fun25.co.kr/image/portfolio/robot.png";
-	private String token = "xoxp-111206116549-111195793460-111212981701-f5040e775203eea31e89e98f9b3efbd4";
+	private String token = "xoxp-111206116549-111195793460-112414835062-4fa0befee9238aeb6b05dbdcf8f7f277";
 	
 	private String channel = Channel.ALARM.getChannel();
 	
 	//채널 enum
 	public static enum Channel{		
-		ALARM("#alarm"),
-		GENERAL("#general");
+		ALARM("#alarm","G393SETEE"),
+		GENERAL("#general","C395RPECU");
 		
 		private String channelName;
+		private String id;
 		
-		Channel(String channelName){
+		Channel(String channelName, String id){
 			this.channelName = channelName;
+			this.id = id;
 		};
 		
 		public String getChannel(){
 			return this.channelName;
+		}
+		
+		public String getID(){
+			return this.id;
 		}
 		
 	}
@@ -49,9 +61,21 @@ public class SlackUtil {
 		this.channel = channel;		
 	};
 	
+	public boolean sendInvite(String email){
+		Map<String,Object> data = new HashMap<String,Object>();
+		data.put("email", email);
+		data.put("channels", Channel.GENERAL.getID());
+		data.put("token", this.token);
+		
+		JSONObject result = sendDatatoAPI("https://fridayit.slack.com/api/users.admin.invite",data);
+				
+		return true;
+	}
+	
+	
 	/**
 	 * 슬랙 봇 메시지 전송 메서드
-	 * @param text
+	 * @param text 
 	 * @return boolean
 	 */
 	public boolean sendBotMessage(String text){
@@ -65,8 +89,8 @@ public class SlackUtil {
 	}
 	
 	/**
-	 * 슬랙 웹 API 전송 메서드
-	 * @param data
+	 * 슬랙 웹 API 전송 메서드 (JSON 이용)
+	 * @param url, data
 	 * @return boolean
 	 */
 	private boolean sendJSONDatatoAPI(String url, JSONObject data){
@@ -96,6 +120,8 @@ public class SlackUtil {
 				result += line;
 			}
 			
+			System.out.println(result);
+			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();			
@@ -119,6 +145,75 @@ public class SlackUtil {
 		}else{
 			return false;
 		}
+		
+	}
+	
+	/**
+	 * 슬랙 웹 API 전송 메서드
+	 * @param url, data
+	 * @return JSONObject
+	 */
+	private JSONObject sendDatatoAPI(String url, Map<String, Object> params){
+		JSONObject result = new JSONObject();
+		
+		String data = "";
+		Iterator<String> keys = params.keySet().iterator();
+		while(keys.hasNext()){
+			String key = keys.next();
+			try {
+				
+				data += key + "=" + URLEncoder.encode(params.get(key).toString(),"UTF-8") + "&";
+				
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		data = data.replaceAll("&$", "");
+		
+		OutputStreamWriter wr = null;
+		BufferedReader buf = null;
+		try {
+			URL sendURL = new URL(url);
+			
+			URLConnection conn = sendURL.openConnection();
+			
+			conn.setDoOutput(true);
+			conn.setUseCaches(false);			
+			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			
+			
+			wr = new OutputStreamWriter(conn.getOutputStream());
+			wr.write(data.toString());
+			wr.flush();
+			
+			buf = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			
+			String line = "";
+			String returnStr = "";
+			while((line = buf.readLine()) != null){
+				returnStr += line;
+			}			
+			
+			result = (JSONObject)JSONParser.parseJSON(returnStr);
+			
+		} catch (MalformedURLException e) {
+			result.put("ok", false);
+			result.put("reason", e.getMessage());
+		} catch (IOException e) {
+			result.put("ok", false);
+			result.put("reason", e.getMessage());
+		} finally{
+			try {
+				wr.close();
+			} catch (IOException e) {
+				result.put("ok", false);
+				result.put("reason", e.getMessage());
+			}
+		}
+		
+		return result;
 		
 	}
 }
