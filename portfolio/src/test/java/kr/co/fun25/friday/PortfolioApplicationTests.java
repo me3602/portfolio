@@ -10,8 +10,8 @@ import kr.co.fun25.friday.VO.EmailVO;
 import kr.co.fun25.friday.util.EmailSender;
 import kr.co.fun25.friday.util.SlackUtil;
 
-/*@RunWith(SpringRunner.class)
-@SpringBootTest*/
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class PortfolioApplicationTests {
 
 	
@@ -21,7 +21,6 @@ public class PortfolioApplicationTests {
 		//SlackUtil slack = new SlackUtil(SlackUtil.Channel.ALARM.getChannel());
 		//slack.sendBotMessage("봇 테스트");
 		//slack.sendInvite("stark9838@gmail.com");
-		
 		
 	}
 	

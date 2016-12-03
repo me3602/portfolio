@@ -28,10 +28,13 @@ import kr.co.fun25.friday.VO.ResultVO;
  */
 public class SlackUtil {
 
+	private final String client_id = "111206116549.111812259639";
+	private final String client_secret = "c2e294b5cd0f44df9a979aa9f4782205";
+	private final String code = "111206116549.112885559174.b0e9fe76e9";
 	private String url = "https://hooks.slack.com/services/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";
 	private String botName = "Friday Bot";
 	private String botImg = "http://friday.fun25.co.kr/image/portfolio/robot.png";
-	private String token = "xoxp-111206116549-111195793460-112414835062-4fa0befee9238aeb6b05dbdcf8f7f277";
+	private String token = "xoxp-111206116549-111195793460-112287327988-454c4f7bffb7b7416634242227698aa2";
 	
 	private String channel = Channel.ALARM.getChannel();
 	
@@ -63,7 +66,7 @@ public class SlackUtil {
 	public SlackUtil(String channel){
 		this.channel = channel;		
 	};
-	
+		
 	public ResultVO sendInvite(String email){
 		Map<String,Object> data = new HashMap<String,Object>();
 		data.put("email", email);
@@ -107,6 +110,17 @@ public class SlackUtil {
 		
 		return this.sendJSONDatatoAPI(this.url,data);		
 	}
+	
+	/*
+	public void setToken(){
+		String url = "https://slack.com/api/oauth.access";
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("client_id", client_id);
+		params.put("client_secret", client_secret);
+		params.put("code", code);
+		
+		System.out.println(this.sendDatatoAPI(url, params).toString());
+	}*/
 	
 	/**
 	 * 슬랙 웹 API 전송 메서드 (JSON 이용)

@@ -44,7 +44,7 @@
 		    	<button type="submit" class="btn invite-btn">가입</button>		    	
 		    </div>	
 		     <div class="form-group invite-box">
-		    	 <button type="button" class="btn btn-primary btn-lg btn-block">입장</button>	    	
+		    	 <a class="btn btn-primary btn-lg btn-block" href="https://fridayit.slack.com/messages/general/" target="_blank">입장</a>	    	
 		    </div>	  	
 		   	    
 		</form>
@@ -76,11 +76,12 @@
 			setCover();	
 			
 		  $.post("/apps/portfolio/invite",$(this).serialize(),function(data){
+			    console.log(data);
 		  		var result = data.result;
 		  		
 		  		if(result == 1001){				
 					makeAlert(form,"success","<strong>초대성공</strong> 성공적으로 초대되었습니다.</br>기입하신 메일을 확인해주세요.");
-				}else{
+				}else{					
 					makeAlert(form,"danger","<strong>초대실패</strong> 아래와 같은 이유로 초대에 실패했습니다. </br>"+data.reason);
 				}
 		  		
