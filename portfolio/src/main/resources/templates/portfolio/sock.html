@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+  <head>  
+    <title>Sock</title>   
+    <style>
+    	.user-list>div{padding:0.5em;font-size:1.2em;}
+    	.user-list>div>span{color:#81F79F}
+    </style>
+  </head> 
+  <body>
+<div layout:fragment="contents"> 	
+<div class="page-header">
+  <h1>Socket Page<small> - test</small></h1>
+</div>
+ 
+<div class="panel panel-default top-pannel">
+  <div class="panel-body">
+    <p class="lead">소켓 테스트</p>
+  </div>
+</div>
+
+<h2>현재 페이지에 접속 중인 유저의 수 : <strong id="userCount"></strong></h2>
+
+<div class="row">
+	<div id="userList" class="col-md-6 col-lg-6 user-list">
+		<!-- <div>
+			<span class="glyphicon glyphicon-console"></span>
+			<strong class="user-id">id1</strong>				
+		</div> -->
+	</div>
+</div>
+
+<button class="btn btn-primary btn-lg" onclick="sockWrite()">서버전송</button>
+<button class="btn btn-primary btn-lg" onclick="sockClose()">연결끊기</button>
+ 
+
+<script src="http://friday.fun25.co.kr/js/primus/primus.js"></script>		
+</div>
+
+<script layout:fragment="script">
+//<![CDATA[
+	
+    /*var primus;
+	window.onload = function(){
+		primus = Primus.connect('http://friday.fun25.co.kr:11904');
+		
+		primus.on('open',function(){
+			primus.on('userCount',function(data){
+				console.log(data);
+			});
+		});		
+	};*/
+	
+	primus = Primus.connect('http://friday.fun25.co.kr:11904');
+	
+	var count = 0;
+	var userID = "";
+	primus.on('userinfo',function(data){		
+		$('#userCount').text(data.count);
+		
+		if(count == 0){
+			userID = data.id;
+			$.each(data.userList,function(index,value){
+				appendUserList(value,$('#userList'));
+			});
+		}else{
+			$.each(data.userList,function(index,value){
+				if(value){
+					
+				}
+				appendUserList(value,$('#userList'));
+			});
+		}
+		
+		count++;
+	});	
+	
+	function appendUserList(id,target){
+		$('<div>')
+		.append($('<span>',{
+			'class' : 'glyphicon glyphicon-console'
+		}))
+		.append($('<strong>',{
+			'class' : 'user-id',
+			'text' : id
+		}))
+		.appendTo(target);
+	};
+	
+	function sockWrite(){
+		primus.write("client msg");
+	};
+	
+	function sockClose(){
+		console.log("close");
+		primus.end();
+	};
+	
+	/*
+		$.each($('#userList').children(),function(i,v){
+		console.log($($(v).find('.user-id')).text());
+		
+		})
+	*/
+	
+//]]>
+</script>
+</body>
+</html>
