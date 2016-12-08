@@ -5,7 +5,8 @@
   <head>  
     <title>Sock</title>   
     <style>
-    	.user-list>div{padding:0.5em;font-size:1.2em;}
+    	.user-list{height: 12em;overflow-y: scroll}
+    	.user-list>div{padding:0.5em;font-size:1.2em}
     	.user-list>div>span{color:#81F79F}
     </style>
   </head> 
@@ -29,6 +30,9 @@
 			<span class="glyphicon glyphicon-console"></span>
 			<strong class="user-id">id1</strong>				
 		</div> -->
+	</div>
+	<div id="browserList" class="col-md-6 col-lg-6 browser-list">
+		<div></div>
 	</div>
 </div>
 
@@ -56,29 +60,30 @@
 	primus = Primus.connect('http://friday.fun25.co.kr:11904');
 	
 	var count = 0;
-	var userID = "";
 	primus.on('userinfo',function(data){		
 		$('#userCount').text(data.count);
 		
 		if(count == 0){
-			userID = data.id;
 			$.each(data.userList,function(index,value){
 				appendUserList(value,$('#userList'));
 			});
 		}else{
-			$.each(data.userList,function(index,value){
-				if(value){
-					
-				}
-				appendUserList(value,$('#userList'));
-			});
-		}
-		
+			appendUserList(data.id,$('#userList'));
+		}		
 		count++;
+		
+		var analysis = data.analysis;
+		console.log(analysis);
 	});	
 	
+	primus.on('userEnd',function(data){
+		$('#line_'+data.id).remove();
+	});
+	
 	function appendUserList(id,target){
-		$('<div>')
+		$('<div>',{
+			'id' : 'line_'+id
+		})
 		.append($('<span>',{
 			'class' : 'glyphicon glyphicon-console'
 		}))
