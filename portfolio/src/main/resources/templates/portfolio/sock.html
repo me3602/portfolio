@@ -3,12 +3,17 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout">
   <head>  
-    <title>Sock</title>   
+    <title>Sock</title>  
     <style>
     	.user-list{height: 12em;overflow-y: scroll}
     	.user-list>div{padding:0.5em;font-size:1.2em}
     	.user-list>div>span{color:#81F79F}
-    </style>
+    	.browser-list{height: 12em;overflow-y: scroll}
+    	.browser-list>div{padding:0.5em;font-size:1.2em}
+    	.browser-list>div>span{color:#81F79F}
+    	.list-id2{padding:0 1em}
+    	.chart{margin: 3em 0;height:600px}
+    </style>    
   </head> 
   <body>
 <div layout:fragment="contents"> 	
@@ -26,72 +31,97 @@
 
 <div class="row">
 	<div id="userList" class="col-md-6 col-lg-6 user-list">
+		<h3>유저 리스트</h3>
 		<!-- <div>
 			<span class="glyphicon glyphicon-console"></span>
 			<strong class="user-id">id1</strong>				
 		</div> -->
 	</div>
 	<div id="browserList" class="col-md-6 col-lg-6 browser-list">
-		<div></div>
+		<h3>접속 브라우저 리스트(누적)</h3>		
 	</div>
 </div>
+
+<div id="result" class="container chart"></div>
 
 <button class="btn btn-primary btn-lg" onclick="sockWrite()">서버전송</button>
 <button class="btn btn-primary btn-lg" onclick="sockClose()">연결끊기</button>
  
 
-<script src="http://friday.fun25.co.kr/js/primus/primus.js"></script>		
+
 </div>
 
+<th:block layout:fragment="lib">
+<script src="http://friday.fun25.co.kr/js/primus/primus.js"></script>		
+<script src="/js/jui-core-master/jui-core-master/dist/core.min.js"></script>
+<script src="/js/jui-chart-master/jui-chart-master/dist/chart.min.js"></script>
+</th:block>
 <script layout:fragment="script">
 //<![CDATA[
-	
-    /*var primus;
-	window.onload = function(){
-		primus = Primus.connect('http://friday.fun25.co.kr:11904');
-		
-		primus.on('open',function(){
-			primus.on('userCount',function(data){
-				console.log(data);
-			});
-		});		
-	};*/
-	
+$(document).ready(function(){	
 	primus = Primus.connect('http://friday.fun25.co.kr:11904');
 	
 	var count = 0;
+	var browserChart;
+	var browserChartData = new Array();
 	primus.on('userinfo',function(data){		
 		$('#userCount').text(data.count);
 		
 		if(count == 0){
 			$.each(data.userList,function(index,value){
-				appendUserList(value,$('#userList'));
+				appendList(value,$('#userList'));
 			});
+			
+			var analysis = data.analysis;	
+			var chartData = new Array();
+			$.each(analysis.browserList,function(index,value){
+				appendList(index,$('#browserList'),value);
+				browserChartData.push({"name" : index, "count" : value});
+			});
+			browserChart = drawChart(browserChartData);
 		}else{
-			appendUserList(data.id,$('#userList'));
+			appendList(data.id,$('#userList'));
+			updateCount(data.analysis.browserName);			
+			updateChartData(browserChart,data.analysis.browserName,browserChartData);
+			//appendList(index,$('#browserList'),value);
 		}		
-		count++;
-		
-		var analysis = data.analysis;
-		console.log(analysis);
+		count++;		
 	});	
 	
 	primus.on('userEnd',function(data){
 		$('#line_'+data.id).remove();
 	});
 	
-	function appendUserList(id,target){
-		$('<div>',{
-			'id' : 'line_'+id
-		})
-		.append($('<span>',{
-			'class' : 'glyphicon glyphicon-console'
-		}))
-		.append($('<strong>',{
-			'class' : 'user-id',
-			'text' : id
-		}))
-		.appendTo(target);
+	function appendList(id,target,value){
+		if(typeof value == "undefined"){
+			$('<div>',{
+				'id' : 'line_'+id
+			})
+			.append($('<span>',{
+				'class' : 'glyphicon glyphicon-console'
+			}))
+			.append($('<strong>',{
+				'class' : 'list-id',
+				'text' : id
+			}))
+			.appendTo(target);
+		}else{
+			$('<div>',{
+				'id' : 'line_'+id
+			})
+			.append($('<span>',{
+				'class' : 'glyphicon glyphicon-console'
+			}))
+			.append($('<strong>',{
+				'class' : 'list-id2',
+				'text' : id + " : "
+			}))
+			.append($('<strong>',{
+				'class' : 'list-num',
+				'text' : value
+			}))
+			.appendTo(target);
+		}	
 	};
 	
 	function sockWrite(){
@@ -101,14 +131,72 @@
 	function sockClose(){
 		console.log("close");
 		primus.end();
+	};	
+	
+	function updateCount(name){
+		var target = $('#line_'+name+">strong.list-num");
+		if($(target).length > 0){
+			$(target).text(Number($(target).text())+1);
+		}else{
+			appendList(name,$('#browserList'),1);
+		}
 	};
 	
-	/*
-		$.each($('#userList').children(),function(i,v){
-		console.log($($(v).find('.user-id')).text());
-		
-		})
-	*/
+	function drawChart(chartData){
+		var chart = jui.include("chart.builder");
+	   	var data = chartData;
+
+	   	return  chart("#result", {
+	   	    axis : [{
+	   	        x : {
+	   	            type : "range",
+	   	            domain : "count",
+	   	            step : 1,
+	   	            line : true
+	   	        },
+	   	        y : {
+	   	            type : "block",
+	   	            domain : "name",
+	   	            line : true
+	   	        },
+	   	        data : data
+	   	    }],
+	   	    brush : [{
+	   	        type : "focus"
+	   	    }, {
+	   	        type : "bar",
+	   	        target : "count",
+	   	        activeEvent : "mouseover",
+	   	        animate : true
+	   	    }],
+	   	    widget : [{
+	   	        type : "title",
+	   	        text : "Connected Browser",
+	   	        align : "start"
+	   	    }]
+		});
+	   	
+	  
+	};
+	
+	function updateChartData(targetChart,targetName,targetData){
+		var flag = false;
+   		$.each(targetData,function(i,v){	   			
+   			if(v.name == targetName) {
+   				v.count += 1
+   				flag = true;
+   			}
+   		});	   		
+   		
+   		if(!flag){
+   			targetData.push({"name" : targetName, "count" : 1});
+   		}
+   		targetChart.axis(0).update(targetData);
+	};
+	
+	
+	
+ });
 	
 //]]>
 </script>
