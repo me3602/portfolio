@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+  <head>  
+    <title>Sock</title>  
+    <style>
+    	.sock2-pannel{height:700px;background:rgba(151,151,151,0.7);padding-bottom:2em;margin-top:3em;}
+    	.recom{background:rgba(0,0,0,0.4);padding:3em 3em;height:200px;border-bottom:1px solid #FFF}
+    	.recom>div{margin-top:1.5em}
+    	.recom>img{position;float:right}
+    	#userCircle{height:500px}
+    	.alram{display:none;z-index:99;height:200px;width:500px;background:rgba(0,0,0,0.4);position:fixed;right:0;bottom:0;padding:1em 2em;}
+    </style>    
+  </head> 
+  <body>
+<div layout:fragment="contents"> 	
+<div class="page-header">
+  <h1>Socket2 Page<small> - test</small></h1>
+</div>
+ 
+<div class="panel panel-default top-pannel">
+  <div class="panel-body">
+    <p class="lead">소켓 테스트</p>
+  </div>
+</div>
+
+<button id="part" type="button" class="btn btn-primary btn-lg">참여</button>
+<button id="alramBtn" type="button" class="btn btn-primary btn-lg">알림전송</button>
+
+<div class="container sock2-pannel">
+	<h2 id="recomTitle">실시간 종목 추천 영역</h2>
+	<div class="recom">
+		<img src="http://www.hippochart.com/hippo/gallery/091101002627_hippo_Candle.png" alt="" width="145px"/>
+		<div>
+			<strong>***님 께서 XXXX를 추천하였습니다.</strong><br/>
+			<span>추천시간 : 2016-12-15 00:00:00</span><br/>
+			<span>총 추천 수 : 10</span>
+		</div>
+	</div>
+	<div class="recom">
+		<img src="http://www.hippochart.com/hippo/gallery/091101002627_hippo_Candle.png" alt="" width="145px"/>
+		<div>
+			<strong>***님 께서 XXXX를 추천하였습니다.</strong><br/>
+			<span>추천시간 : 2016-12-15 00:00:00</span><br/>
+			<span>총 추천 수 : 10</span>
+		</div>
+	</div>
+	<div class="recom">
+		<img src="http://www.hippochart.com/hippo/gallery/091101002627_hippo_Candle.png" alt="" width="145px"/>
+		<div>
+			<strong>***님 께서 XXXX를 추천하였습니다.</strong><br/>
+			<span>추천시간 : 2016-12-15 00:00:00</span><br/>
+			<span>총 추천 수 : 10</span>
+		</div>
+	</div>
+</div>
+
+<div class="container sock2-pannel">
+	<h2>참여 유저 수 </h2>
+	<h3>참여인원 : <span id="userCount">100</span></h3>
+	<h3>목표인원 : 1000</h3>
+	<div id="userCircle"></div>
+</div>
+
+
+<!-- <div class="alram">
+	<h3>전문가카페 알람</h3>
+	<p>XXX 전문가의  방송이 시작되었습니다.</p>
+	<a class="btn btn-info" href="http://moneta.paxnet.co.kr">입장하기</a>
+</div> -->
+
+</div>
+
+<th:block layout:fragment="lib">
+<script src="http://friday.fun25.co.kr/js/sock2/primus/primus.js"></script>		
+<script src="/js/jui-core-master/jui-core-master/dist/core.min.js"></script>
+<script src="/js/jui-chart-master/jui-chart-master/dist/chart.min.js"></script>
+</th:block>
+<script layout:fragment="script">
+//<![CDATA[
+$(document).ready(function(){
+	var juiChart = jui.include("chart.builder");
+	
+	var userCountChart = juiChart("#userCircle", {
+	    axis : [{
+			c : {
+				type : "panel",
+			},
+	        data : [{
+	            title : "참여인원",
+	            value : 0,
+	            max : 100,
+	            min : 0
+	        }]
+	    }],
+	    brush : [{
+	        type : "fullgauge",
+			symbol : "round",
+	        startAngle : 270,
+	        size : 20,
+	        titleY : 40,
+	        showText : true,
+	        format : function(value) {
+	            return value + "k";
+	        }
+	    }],
+		style : {
+			gaugeFontSize : 30
+		}
+	});
+	
+	primus = Primus.connect('http://friday.fun25.co.kr:11906');
+	
+	primus.on('enter',function(data){
+		$.each($('.recom'),function(i,v,array){
+			if(i > 1) $(this).remove();
+			
+		});
+		prependRecom(data,$('#recomTitle'));
+		updateUserCount(data,1000,userCountChart);
+	});
+	
+	primus.on('alram',function(data){
+		$('<div>',{"class":"alram"})
+		.append($('<h3>',{"text":data.title}))
+		.append($('<p>',{"text":data.value}))
+		.append($('<a>',{"src":data.url,"text":"이동하기","class":"btn btn-info"}))
+		.appendTo($('.section')).show('slow');
+		setTimeout(function(){
+			$.when($(".alram").hide('slow')).then(function(){$(".alram").remove()});
+		},5000);
+		
+		
+	});
+	
+	$('#part').on('click',function(){
+		primus.emit('part');
+	});
+	
+	$('#alramBtn').on('click',function(){
+		primus.emit('alram');
+	});
+	
+	function prependRecom(data,target){
+		
+		$('<div>',{"class":"recom"})
+		.append($('<img>',{"width":"145px","src":"http://www.hippochart.com/hippo/gallery/091101002627_hippo_Candle.png"}))
+		.append(
+				$('<div>')
+				.append($('<strong>',{"text":"***님 께서 XXXX를 추천하였습니다."}))
+				.append($('<br>'))
+				.append($('<span>',{"text":"추천시간 : "+data.date}))
+				.append($('<br>'))
+				.append($('<span>',{"text":"총 추천 수 : "+data.count}))
+				).hide().insertAfter(target).show('slow');
+	}
+	
+	function updateUserCount(data,limit,chart){
+		var count = data.userCount;
+		//var data = {value:count};
+		if(limit > count){
+			$('#userCount').text(count);
+			chart.axis(0).update( [{"value":count/10, "title":"참여인원"}] );
+		}
+	};
+	
+	
+ });
+	
+//]]>
+</script>
+</body>
+</html>

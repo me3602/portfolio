@@ -71,6 +71,12 @@ public class PortfolioController {
 		mav.setViewName("portfolio/sock");
 		return mav;
 	}
+	@RequestMapping(value="/sock2", method=RequestMethod.GET)
+	public ModelAndView getSock2Page(ModelAndView mav){
+		
+		mav.setViewName("portfolio/sock2");
+		return mav;
+	}
 	
 	@RequestMapping(value="/test/{id}", method=RequestMethod.GET)
 	public ModelAndView getTest(ModelAndView mav, @PathVariable String id){
