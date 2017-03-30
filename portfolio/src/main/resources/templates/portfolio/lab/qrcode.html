@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+  <head>  
+    <title>QR CODE MAKER</title>  
+  </head> 
+  <body>
+<div layout:fragment="contents"> 	
+<div class="page-header">
+  <h1>QR Code Page<small> QR코드 생성기</small></h1>
+</div>
+ 
+<div class="panel panel-default top-pannel">
+  <div class="panel-body">
+    <p class="lead">QR코드 생성기</p>
+  </div>
+</div>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-5 col-md-offset-4 col-sm-5 col-sm-offset-3 col-xs-offset-2">
+			<img id="qrImage" class="img-responsive" src="/apps/portfolio/makeQR" />
+		</div>
+	</div>
+	<div class="container">
+		<form id="qrForm">
+			<div class="form-group">
+				<label for="inputURL">URL</label>
+    			<input type="text" name="url" class="form-control" id="inputURL" placeholder="http://..." />
+			</div>
+			<div class="form-group">
+				<label for="inputWidth">width</label>
+    			<input type="number" name="width" class="form-control" id="inputWidth" placeholder="px"/>
+			</div>
+			<div class="form-group">
+				<label for="inputHeight">Height</label>
+    			<input type="number" name="height" class="form-control" id="inputHeight" placeholder="px"/>
+			</div>
+			<div class="form-group">
+				<label for="inputQrColor">Code Color</label>
+    			<input type="text" name="qrColor" class="form-control" id="inputQrColor" placeholder="android hex(기본 검은색)"/>
+			</div>
+			<div class="form-group">
+				<label for="inputBackColor">Background Color</label>
+    			<input type="text" name="backColor" class="form-control" id="inputBackColor" placeholder="android hex(기본 흰색)"/>
+			</div>
+			<button class="btn btn-default center-block" type="submit">생성</button>
+		</form>
+	</div>
+</div>
+
+
+
+</div>
+
+<th:block layout:fragment="lib">
+<script src="http://friday.fun25.co.kr/js/primus/primus.js"></script>		
+<script src="/js/jui-core-master/jui-core-master/dist/core.min.js"></script>
+<script src="/js/jui-chart-master/jui-chart-master/dist/chart.min.js"></script>
+</th:block>
+<script layout:fragment="script">
+//<![CDATA[
+$(document).ready(function(){	
+	$("#qrForm").submit(function(){
+		$('#qrImage').attr('src','/apps/portfolio/makeQR?'+$(this).serialize());
+		
+		return false;
+	});
+	
+ });
+	
+//]]>
+</script>
+</body>
+</html>

@@ -8,12 +8,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 import kr.co.fun25.friday.VO.EmailVO;
+import kr.co.fun25.friday.VO.QRCodeVO;
 import kr.co.fun25.friday.VO.ResultVO;
 import kr.co.fun25.friday.service.PortfolioService;
 import kr.co.fun25.friday.util.CommonUtil;
 import kr.co.fun25.friday.util.EmailSender;
+import kr.co.fun25.friday.util.ViewUtil;
 
 @RestController
 @RequestMapping(value="/apps/portfolio")
@@ -78,11 +81,19 @@ public class PortfolioController {
 		return mav;
 	}
 	
+	
 	@RequestMapping(value="/test/{id}", method=RequestMethod.GET)
 	public ModelAndView getTest(ModelAndView mav, @PathVariable String id){
 		
 		
 		mav.setViewName("portfolio/test/"+id);
+		return mav;
+	}
+	
+	@RequestMapping(value="/lab/page/{name}", method=RequestMethod.GET)
+	public ModelAndView getLabPage(ModelAndView mav, @PathVariable(value="name") String name){
+		
+		mav.setViewName("portfolio/lab/"+name);
 		return mav;
 	}
 	
@@ -99,6 +110,19 @@ public class PortfolioController {
 	public ResultVO sendInvite(@RequestParam(value="email") String email){
 		
 		return portfolioService.sendSlackInvite(email);		
+	}
+	
+	@RequestMapping(value="/makeQR", method=RequestMethod.GET)
+	public View getQrCode(QRCodeVO params){
+		
+		String url = "http://friday.fun25.co.kr/apps/portfolio/intro";
+		int width = 300;
+		int height = 300;
+		if(params.isEmpty()){
+			params = new QRCodeVO(url,width,height,"0xff000000","0xffffffff");
+		}
+		
+		return ViewUtil.getQrView(portfolioService.getQRMatrix(params), portfolioService.getQRColor(params));
 	}
 	
 	
